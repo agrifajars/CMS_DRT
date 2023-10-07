@@ -250,10 +250,42 @@ if (isset($_SESSION['user_id']) == 0){
   $(function () {
     $('#reservationdatetime').datetimepicker({ icons: { time: 'far fa-clock' } });
 
-    $("#example1").DataTable({
+    $("#datatable").DataTable({
       "responsive": true, "lengthChange": false, "autoWidth": false,
-      "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
-    }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+      // "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+      buttons: [
+              {
+                extend: 'csv',
+                title: "DRT | Dashboard",
+                exportOptions: {
+                  columns: ':not(:last-child)',
+                }
+              },
+              {
+                extend: 'excel',
+                title: "DRT | Dashboard",
+                exportOptions: {
+                  columns: ':not(:last-child)',
+                }
+              },
+              {
+                extend: 'pdf',
+                title: "DRT | Dashboard",
+                exportOptions: {
+                  columns: ':not(:last-child)',
+                }
+              },
+              {
+                extend: 'print',
+                title: "DRT | Dashboard",
+                exportOptions: {
+                  columns: ':not(:last-child)',
+                }
+              },
+              "colvis"
+        ]
+      
+    }).buttons().container().appendTo('#datatable_wrapper .col-md-6:eq(0)');
     // $('#example2').DataTable({
     //   "paging": true,
     //   "lengthChange": false,
