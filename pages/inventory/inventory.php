@@ -17,6 +17,7 @@
                     <th>Kategori</th>
                     <th>Nama Barang</th>
                     <th>Stok</th>
+                    <th>Harga</th>
                     <th>Foto Barang</th>
                     <th>Aksi</th>
                 </tr>
@@ -34,6 +35,7 @@
                             c.`category`,
                             i.`name`,
                             i.`stock`,
+                            i.`price`,
                             i.`created_at`,
                             i.`updated_at`,
                             im.`imagetype`,
@@ -49,8 +51,7 @@
                         ON
                             i.`id_image` = im.`id`
                         ORDER BY
-                            i.`created_at`;
-                        "
+                            i.`created_at` DESC;"
                     );
                     
                     while ($row = mysqli_fetch_assoc($query)) {
@@ -61,6 +62,7 @@
                         <td><?php echo $row['category']; ?></td>
                         <td><?php echo $row['name']; ?></td>
                         <td><?php echo $row['stock']; ?></td>
+                        <td><?php echo number_format($row['price'], 0, ',', '.'); ?></td>
                         <td><img src="pages/image.php?id=<?php echo $row['id_image']; ?>" width="150" height="150" /></td>
                         <td>
                             <a href="#" class="btn btn-success" role="button" title="Ubah Data" data-toggle="modal" data-target="#updatecategory<?php echo $no; ?>">Update</a>
@@ -99,7 +101,7 @@
                                             </button>
                                         </div>
                                         <div class="modal-body">
-                                            <form role="form" method="post" action="pages/inventory/function_inventory.php?act=update&id=<?= $row['id']; ?>">
+                                            <form role="form" method="post" action="pages/inventory/function_inventory.php?act=update&id=<?= $row['id']; ?>" enctype="multipart/form-data">
                                                 <div class="form-group">
                                                     <label>Kategori Barang</label>
                                                     <select class="form-control" name="id_category">
@@ -116,6 +118,33 @@
                                                     <label>Nama Barang</label>
                                                     <input type="text" class="form-control" id="name" name="name" placeholder="Masukan nama barang" value="<?php echo $row['name']; ?>" required>
                                                 </div>
+
+                                                <div class="form-group">
+                                                    <label>Harga Barang</label>
+                                                    <div class="input-group">
+                                                        <div class="input-group-prepend">
+                                                            <span class="input-group-text">
+                                                                <a>Rp</a>   
+                                                            </span>
+                                                        </div>
+                                                        <input type="text" name="price" class="form-control" maxlength="10" oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')" value="<?php echo number_format($row['price'], 0, ',', '.'); ?>" required/>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <div class="input-group">
+                                                        <div class="custom-file">
+                                                            <input type="file" class="custom-file-input" id="image" name="image" onchange="readURL(this, `imageupdate<?php echo $no; ?>`, `filelabel<?php echo $no; ?>`);" accept=".png, .jpg, .jpeg">
+                                                            <label class="custom-file-label" for="image" id="filelabel<?php echo $no; ?>">Pilih file</label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                
+                                                <div class="form-group">
+                                                    <img id="imageupdate<?php echo $no; ?>" width="100%"/>
+                                                </div>
+                                                
+                                                <input type="hidden" name="id_image" value="<?php echo $row['id_image']; ?>">
                                                 <button type="submit" class="btn btn-primary">Update</button>
                                             </form>
                                         </div>
@@ -170,21 +199,35 @@
                                 </select>
                             </div>
                         </div>
+
                         <div class="form-group">
                             <label>Nama Barang</label>
                             <input type="text" class="form-control" id="name" name="name" placeholder="Masukan nama barang" required>
                         </div>
+
                         <div class="form-group">
-                            <label for="exampleInputFile">Foto Barang</label>
+                            <label>Harga Barang</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">
+                                        <a>Rp</a>   
+                                    </span>
+                                </div>
+                                <input type="text" name="price" class="form-control" maxlength="10" oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')" required/>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
                             <div class="input-group">
                                 <div class="custom-file">
-                                    <input type="file" class="custom-file-input" id="image" name="image" onchange="previewImage()" accept=".png, .jpg, .jpeg" required>
-                                    <label class="custom-file-label" for="image" id="fileLabel">Pilih file</label>
+                                    <input type="file" class="custom-file-input" id="image" name="image" onchange="readURL(this, `imagesave`, `filelabel`);" accept=".png, .jpg, .jpeg">
+                                    <label class="custom-file-label" for="image" id="filelabel">Pilih file</label>
                                 </div>
                             </div>
                         </div>
+                        
                         <div class="form-group">
-                            <img id="imagePreview" src="#" alt="Image Preview" style="display: none; max-width: 100%;">
+                            <img id="imagesave" width="100%"/>
                         </div>
 
                         <button type="submit" class="btn btn-primary">Save</button>
@@ -197,26 +240,15 @@
 </section>
 
 <script>
-function previewImage() {
-    var input = document.getElementById('image');
-    var label = document.getElementById('fileLabel');
-    var preview = document.getElementById('imagePreview');
-
-    console.log(input.files[0]);
+function readURL(input, imageID, fileLabel) {
+    var label = document.getElementById(fileLabel);
     if (input.files && input.files[0]) {
         var reader = new FileReader();
-
         reader.onload = function (e) {
-            preview.style.display = 'block';
-            preview.src = e.target.result;
+            $('#' + imageID).attr('src', e.target.result);
         }
-
         reader.readAsDataURL(input.files[0]);
         label.innerText = input.files[0].name;
-        
-    } else {
-        preview.style.display = 'none';
-        label.innerText = 'Pilih file';
     }
 }
 

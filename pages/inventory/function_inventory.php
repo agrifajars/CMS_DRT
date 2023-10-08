@@ -28,20 +28,13 @@ if ($_GET['act'] == 'add') {
     if ($imageUploaded) {
         $imagePath = $_FILES['image']['tmp_name'];
         $imageType = mime_content_type($imagePath);
-
-        // Validasi jenis gambar yang diunggah
-        if ($imageType === 'image/jpeg' || $imageType === 'image/png') {
-            $imagedata = addslashes(file_get_contents($imagePath));
+        $imagedata = addslashes(file_get_contents($imagePath));
             
-            $query = "INSERT INTO images (`id`, `imagetype`, `imagedata`) VALUES ('$id_image', '$imageType', '$imagedata')";
-            $result = mysqli_query($connection, $query);
+        $query = "INSERT INTO images (`id`, `imagetype`, `imagedata`) VALUES ('$id_image', '$imageType', '$imagedata')";
+        $result = mysqli_query($connection, $query);
 
-            if (!$result) {
-                echo "ERROR, gagal menyimpan gambar: " . mysqli_error($connection);
-                exit();
-            }
-        } else {
-            echo "ERROR, jenis gambar tidak valid.";
+        if (!$result) {
+            echo "ERROR, gagal menyimpan gambar: " . mysqli_error($connection);
             exit();
         }
     }
@@ -60,34 +53,41 @@ if ($_GET['act'] == 'add') {
     $new_id_image = generateUuidV4();
     $newIdCategory = $_POST["id_category"];
     $newName = $_POST["name"];
+    $newPrice = str_replace(",", "", $_POST["price"]);
     $imageUploaded = isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK;
     
-    // if ($imageUploaded) {
-    //     $imagePath = $_FILES['image']['tmp_name'];
-    //     $imageType = mime_content_type($imagePath);
-    //     $imagedata = addslashes(file_get_contents($imagePath));
+    if ($imageUploaded) {
+        $imagePath = $_FILES['image']['tmp_name'];
+        $imageType = mime_content_type($imagePath);
+        $imagedata = addslashes(file_get_contents($imagePath));
 
-    //     $resultDelete = mysqli_query($connection, "DELETE FROM images WHERE id = '$id_image'");
-    //     if (!$resultDelete) {
-    //         echo "ERROR, gagal update: " . mysqli_error($connection);
-    //         exit();
-    //     }
+        $resultDelete = mysqli_query($connection, "DELETE FROM images WHERE id = '$id_image'");
+        if (!$resultDelete) {
+            echo "ERROR, gagal update saat delete gambar: " . mysqli_error($connection);
+            exit();
+        }
 
-    //     $resultSave = mysqli_query($connection, "INSERT INTO images (`id`, `imagetype`, `imagedata`) VALUES ('$new_id_image', '$imageType', '$imagedata')");
-    //     if (!$resultSave) {
-    //         echo "ERROR, gagal update: " . mysqli_error($connection);
-    //         exit();
-    //     }
-    // }
+        $resultSave = mysqli_query($connection, "INSERT INTO images (`id`, `imagetype`, `imagedata`) VALUES ('$new_id_image', '$imageType', '$imagedata')");
+        if (!$resultSave) {
+            echo "ERROR, gagal update saat simpan gambar: " . mysqli_error($connection);
+            exit();
+        }
 
-    // $query = "UPDATE inventory SET `id_category` = '$newIdCategory', `id_image` = '$new_id_image', `name` = '$newName' WHERE id = '$id'";
-    $query = "UPDATE inventory SET `id_category` = '$newIdCategory', `name` = '$newName' WHERE id = '$id'";
-    $result = mysqli_query($connection, $query);
-
-    if ($result) {
-        echo '<script>alert("Data berhasil diupdate."); window.location.href="../../index.php?menu=inventory"</script>';
+        $result = mysqli_query($connection, "UPDATE inventory SET `id_category` = '$newIdCategory', `id_image` = '$new_id_image', `name` = '$newName', `price` = '$newPrice' WHERE id = '$id'");
+        if ($result) {
+            echo '<script>alert("Data berhasil diupdate."); window.location.href="../../index.php?menu=inventory"</script>';
+        } else {
+            echo "ERROR, data gagal diupdate?". mysqli_error($connection);
+        }
     } else {
-        echo "ERROR, data gagal diupdate". mysqli_error($connection);
+        $query = "UPDATE inventory SET `id_category` = '$newIdCategory', `name` = '$newName', `price` = '$newPrice' WHERE id = '$id'";
+        $result = mysqli_query($connection, $query);
+
+        if ($result) {
+            echo '<script>alert("Data berhasil diupdate."); window.location.href="../../index.php?menu=inventory"</script>';
+        } else {
+            echo "ERROR, data gagal diupdate". mysqli_error($connection);
+        }
     }
 } else if ($_GET['act' ] == 'delete') {
     $id = $_GET['id'];
@@ -125,7 +125,6 @@ if ($_GET['act'] == 'add') {
             $json[] = ['id' => $row['id'], 'text' => "$stock - $name"];
         }
     } else {
-        
         $search = $_GET['searchTerm'];
         $query = "SELECT * FROM inventory WHERE name LIKE '%".$search."%' LIMIT 10"; 
         
