@@ -4,10 +4,6 @@
         <div class="col-12">
             <!-- /.card-header -->
             <div class="card">
-            <div class="card-header">
-                <!-- <h3 class="card-title">DataTable with default features</h3> -->
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-default"><i class="fa fa-plus" style="margin-right: 5px;"></i> Tambah data</button>
-            </div>
             <!-- /.card-header -->
             <div class="card-body">
                 <table id="datatable" class="table table-bordered table-striped">

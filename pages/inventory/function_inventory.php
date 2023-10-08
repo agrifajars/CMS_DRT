@@ -22,6 +22,7 @@ if ($_GET['act'] == 'add') {
     $id_image = generateUuidV4();
     $id_category = $_POST["id_category"];
     $name = $_POST["name"];
+    $price = str_replace(",", "", $_POST["price"]);
 
     $imageUploaded = isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK;
     if ($imageUploaded) {
@@ -45,8 +46,7 @@ if ($_GET['act'] == 'add') {
         }
     }
 
-    // Simpan data inventory
-    $query = "INSERT INTO inventory (`id`, `id_category`, `id_image`, `name`, `stock`) VALUES ('$uuid', '$id_category', '$id_image', '$name', 0)";
+    $query = "INSERT INTO inventory (`id`, `id_category`, `id_image`, `name`, `stock`, `price`) VALUES ('$uuid', '$id_category', '$id_image', '$name', 0, '$price')";
     $result = mysqli_query($connection, $query);
 
     if ($result) {
@@ -56,9 +56,31 @@ if ($_GET['act'] == 'add') {
     }
 } else if ($_GET['act' ] == 'update') {
     $id = $_GET['id'];
+    $id_image = $_POST["id_image"];
+    $new_id_image = generateUuidV4();
     $newIdCategory = $_POST["id_category"];
     $newName = $_POST["name"];
+    $imageUploaded = isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK;
+    
+    // if ($imageUploaded) {
+    //     $imagePath = $_FILES['image']['tmp_name'];
+    //     $imageType = mime_content_type($imagePath);
+    //     $imagedata = addslashes(file_get_contents($imagePath));
 
+    //     $resultDelete = mysqli_query($connection, "DELETE FROM images WHERE id = '$id_image'");
+    //     if (!$resultDelete) {
+    //         echo "ERROR, gagal update: " . mysqli_error($connection);
+    //         exit();
+    //     }
+
+    //     $resultSave = mysqli_query($connection, "INSERT INTO images (`id`, `imagetype`, `imagedata`) VALUES ('$new_id_image', '$imageType', '$imagedata')");
+    //     if (!$resultSave) {
+    //         echo "ERROR, gagal update: " . mysqli_error($connection);
+    //         exit();
+    //     }
+    // }
+
+    // $query = "UPDATE inventory SET `id_category` = '$newIdCategory', `id_image` = '$new_id_image', `name` = '$newName' WHERE id = '$id'";
     $query = "UPDATE inventory SET `id_category` = '$newIdCategory', `name` = '$newName' WHERE id = '$id'";
     $result = mysqli_query($connection, $query);
 

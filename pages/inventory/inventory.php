@@ -116,15 +116,6 @@
                                                     <label>Nama Barang</label>
                                                     <input type="text" class="form-control" id="name" name="name" placeholder="Masukan nama barang" value="<?php echo $row['name']; ?>" required>
                                                 </div>
-                                                <!-- <div class="form-group">
-                                                    <label for="exampleInputFile">Foto Barang</label>
-                                                    <div class="input-group">
-                                                        <div class="custom-file">
-                                                            <input type="file" class="custom-file-input" id="image" name="image" onchange="previewImage()" accept=".png, .jpg, .jpeg">
-                                                            <label class="custom-file-label" for="image" id="fileLabel">Pilih file</label>
-                                                        </div>
-                                                    </div>
-                                                </div> -->
                                                 <button type="submit" class="btn btn-primary">Update</button>
                                             </form>
                                         </div>
@@ -211,6 +202,7 @@ function previewImage() {
     var label = document.getElementById('fileLabel');
     var preview = document.getElementById('imagePreview');
 
+    console.log(input.files[0]);
     if (input.files && input.files[0]) {
         var reader = new FileReader();
 
@@ -227,4 +219,5 @@ function previewImage() {
         label.innerText = 'Pilih file';
     }
 }
+
 </script>

@@ -39,7 +39,7 @@
                         <td><?php echo $row['address']; ?></td>
                         <td>
                             <a href="#" class="btn btn-success" role="button" title="Ubah Data" data-toggle="modal" data-target="#updatesupplier<?php echo $no; ?>">Update</i></a>
-                            <a href="#" class="btn btn-danger" role="button" title="Hapus Data" data-toggle="modal" data-target="#deletesupplier<?php echo $no; ?>">Hapus</a>
+                            <!-- <a href="#" class="btn btn-danger" role="button" title="Hapus Data" data-toggle="modal" data-target="#deletesupplier<?php echo $no; ?>">Hapus</a> -->
 
                             <!-- modal delete -->
                             <div class="modal fade" id="deletesupplier<?php echo $no; ?>" role="dialog">

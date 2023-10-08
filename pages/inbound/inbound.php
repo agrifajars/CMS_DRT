@@ -16,7 +16,6 @@
                     <th>No</th>
                     <th>Kategori</th>
                     <th>Nama Barang</th>
-                    <th>Harga Beli</th>
                     <th>Jumlah</th>
                     <th>Pemasok</th>
                     <th>Inputer</th>
@@ -31,7 +30,6 @@
                         "SELECT
                             inb.`id`,
                             inb.`amount`,
-                            inb.`purchase_price`,
                             supp.`id` AS supplier_id,
                             supp.`name` AS supplier_name,
                             inv.`id` AS inventory_id,
@@ -65,7 +63,6 @@
                         <td><?php echo $no = $no + 1; ?></td>
                         <td><?php echo $row['category']; ?></td>
                         <td><?php echo $row['inventory_name']; ?></td>
-                        <td><?php echo number_format($row['purchase_price'], 0, ',', '.'); ?></td>
                         <td><?php echo number_format($row['amount'], 0, ',', '.'); ?></td>
                         <td><?php echo $row['supplier_name']; ?></td>
                         <td><?php echo $row['username']; ?></td>
@@ -117,17 +114,6 @@
                         <div class="form-group">
                             <label>Jumlah</label>
                             <input type="number" name="amount" class="form-control" min="0" maxlength="3" oninput="if (this.value.length > 3) this.value = '999';" required/>
-                        </div>
-                        <div class="form-group">
-                            <label>Harga Beli</label>
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text">
-                                        <a>Rp</a>   
-                                    </span>
-                                </div>
-                                <input type="text" name="price" class="form-control" maxlength="10" oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')" />
-                            </div>
                         </div>
                         <button type="submit" class="btn btn-primary">Save</button>
                     </form>

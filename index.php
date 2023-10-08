@@ -296,6 +296,10 @@ if (isset($_SESSION['user_id']) == 0){
     //   "responsive": true,
     // });
 
+    $('#updateinventory').on('hidden.bs.modal', function () {
+      $(this).find('form').trigger('reset');
+    })
+
     $('#search_inventory').select2({
         theme: 'bootstrap4',
         ajax: {

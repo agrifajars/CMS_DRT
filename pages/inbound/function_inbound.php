@@ -25,7 +25,6 @@ if ($_GET['act'] == 'add') {
     $id_user = $_SESSION['user_id'];
     $session_user = $_SESSION['user_id'];
     $amount = $_POST["amount"];
-    $price = str_replace(",", "", $_POST["price"]);
 
     $formatted_date = $_POST["date"];
     $timestamp = strtotime($formatted_date);
@@ -34,7 +33,7 @@ if ($_GET['act'] == 'add') {
         $formatted_date = date('Y-m-d H:i:s', $timestamp);
     }
 
-    $query = "INSERT INTO inbound (`id`, `id_inventory`, `id_supplier`, `id_user`, `date`, `amount`, `purchase_price`) VALUES ('$uuid', '$id_inventory', '$id_supplier', '$id_user', '$formatted_date', $amount, $price)";
+    $query = "INSERT INTO inbound (`id`, `id_inventory`, `id_supplier`, `id_user`, `date`, `amount`) VALUES ('$uuid', '$id_inventory', '$id_supplier', '$id_user', '$formatted_date', $amount)";
     $queryUpdateStock = "UPDATE inventory SET stock = stock + $amount WHERE id = '$id_inventory'";
     
     $result = mysqli_query($connection, $query);
