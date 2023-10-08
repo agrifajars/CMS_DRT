@@ -63,8 +63,8 @@
                         <td><?php echo $row['stock']; ?></td>
                         <td><img src="pages/image.php?id=<?php echo $row['id_image']; ?>" width="150" height="150" /></td>
                         <td>
-                            <a href="#" class="btn btn-success" role="button" title="Ubah Data" data-toggle="modal" data-target="#updatecategory<?php echo $no; ?>"><i class="fas fa-edit"></i></a>
-                            <a href="#" class="btn btn-danger" role="button" title="Hapus Data" data-toggle="modal" data-target="#deletecategory<?php echo $no; ?>"><i class="fas fa-trash"></i></a>
+                            <a href="#" class="btn btn-success" role="button" title="Ubah Data" data-toggle="modal" data-target="#updatecategory<?php echo $no; ?>">Update</a>
+                            <!-- <a href="#" class="btn btn-danger" role="button" title="Hapus Data" data-toggle="modal" data-target="#deletecategory<?php echo $no; ?>"><i class="fas fa-trash"></i></a> -->
 
                             <!-- modal delete -->
                             <div class="modal fade" id="deletecategory<?php echo $no; ?>" role="dialog">

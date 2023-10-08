@@ -17,8 +17,11 @@
                         <th>ID Transaksi</th>
                         <th>Tanggal</th>
                         <th>Total Item</th>
-                        <th>Total Harga</th>
+                        <th>Harga Item</th>
+                        <th>Servis</th>
+                        <th>Total</th>
                         <th>Inputer</th>
+                        <th>Status</th>
                         <th>Aksi</th>
                     </tr>
                     </thead>
@@ -45,7 +48,9 @@
                                 SELECT SUM(detail.`amount`)
                                 FROM `transaction_detail` detail
                                 WHERE detail.`id_transaction` = trx.`id`
-                            ) AS total_item
+                            ) AS total_item,
+                            trx.`service`,
+                            trx.`status`
                         FROM
                             `transaction` trx
                         LEFT JOIN `user` usr ON
@@ -63,10 +68,24 @@
                             <td><?php echo $row['date']; ?></td>
                             <td><?php echo $row['total_item']; ?></td>
                             <td><?php echo number_format($row['total_price'], 0, ',', '.'); ?></td>
+                            <td><?php echo number_format($row['service'], 0, ',', '.'); ?></td>
+                            <td><?php echo number_format($row['total_price'] + $row['service'], 0, ',', '.'); ?></td>
                             <td><?php echo $row['username']; ?></td>
                             <td>
+                                <?php 
+                                    if ($row['status'] == 'paid') {
+                                        echo '<span style="color: green;"><b>Paid</b></span>';
+                                    } else {
+                                        echo '<span style="color: red;"><b>null</b></span>';
+                                    }
+                                ?>
+                            </td>
+                            <td>
                                 <!-- <a href="#" class="btn btn-primary" role="button" title="Lihat Detaiil" data-toggle="modal" data-target="#detail<?php echo $no; ?>"><i class="fas fa-eye"></i></a> -->
-                                <button class="open-detail-modal" data-id-transaction="<?php echo $row['id']; ?>">Lihat Detail</button>
+                                <button class="btn btn-info open-detail-modal" data-id-transaction="<?php echo $row['id']; ?>">Detail</button>
+                                <?php if ($row['status'] != 'paid'): ?>
+                                    <a href="pages/transaction/function_transaction.php?act=update&id=<?= $row['id']; ?>" class="btn btn-success" role="button" title="Ubah Data">Dibayar</a>
+                                <?php endif; ?>
 
                                 <!-- Modal detail -->
                                 <div class="modal fade" id="detailModal" role="dialog">

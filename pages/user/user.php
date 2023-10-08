@@ -50,8 +50,8 @@
                         <td><?php echo $row['address']; ?></td>
                         <td><?php echo ucfirst($row['role']); ?></td>
                         <td>
-                            <a href="#" class="btn btn-success" role="button" title="Ubah Data" data-toggle="modal" data-target="#updateuser<?php echo $no; ?>"><i class="fas fa-edit"></i></a>
-                            <a href="#" class="btn btn-danger" role="button" title="Hapus Data" data-toggle="modal" data-target="#deleteuser<?php echo $no; ?>"><i class="fas fa-trash"></i></a>
+                            <button type="button" class="btn btn-success" <?php if ($_SESSION['role'] !== 'admin') echo 'disabled'; ?> data-toggle="modal" data-target="#updateuser<?php echo $no; ?>">Update</button>
+                            <button type="button" class="btn btn-danger" <?php if ($_SESSION['role'] !== 'admin') echo 'disabled'; ?> data-toggle="modal" data-target="#deleteuser<?php echo $no; ?>">Hapus</button>
 
                             <!-- modal delete -->
                             <div class="modal fade" id="deleteuser<?php echo $no; ?>" role="dialog">

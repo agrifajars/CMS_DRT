@@ -45,9 +45,10 @@ if ($_GET['act'] == 'add') {
 } else if ($_GET['act' ] == 'save_session') {
     $id_transaction = $_GET['id_transaction'];
     $id_user = $_SESSION['user_id'];
+    $service = str_replace(",", "", $_POST["service"]);
     $currentDateTime = date('Y-m-d H:i:s');
     
-    $query = "INSERT INTO `transaction`(`id`, `id_user`, `date`) VALUES ('$id_transaction','$id_user','$currentDateTime')";
+    $query = "INSERT INTO `transaction`(`id`, `id_user`, `date`, `service`) VALUES ('$id_transaction','$id_user','$currentDateTime', '$service')";
     $result = mysqli_query($connection, $query);
 
     if ($result) {
@@ -56,6 +57,17 @@ if ($_GET['act'] == 'add') {
         echo '<script>alert("Data berhasil disimpan."); window.location.href="../../index.php?menu=transaction"</script>';
     } else {
         echo "ERROR, data gagal disimpan". mysqli_error($connection);
+    }
+} else if ($_GET['act' ] == 'update') {
+    $id = $_GET['id'];
+
+    $query = "UPDATE `transaction` SET `status` = 'paid' WHERE id = '$id'";
+    $result = mysqli_query($connection, $query);
+
+    if ($result) {
+        echo '<script>alert("Data berhasil diupdate."); window.location.href="../../index.php?menu=transaction"</script>';
+    } else {
+        echo "ERROR, data gagal diupdate". mysqli_error($connection);
     }
 } else if ($_GET['act' ] == 'delete_session') {
     $id_transaction = $_GET['id_transaction'];

@@ -32,17 +32,28 @@
                     <div class="modal-dialog">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title">Confirmation</h5>
+                                <h5 class="modal-title">Konfirmasi</h5>
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                             </div>
                             <div class="modal-body">
-                                <h5 align="center">Apakah pesanannya sudah selesai? <br> Pastikan sebelum melanjutkan.</h5>
-                            </div>
-                            <div class="modal-footer">
-                                <button id="nodelete" type="button" class="btn btn-danger pull-left" data-dismiss="modal">Cancel</button>
-                                <a href="pages/transaction/function_transaction.php?act=save_session&id_transaction=<?= $_SESSION['id_transaction']; ?>" class="btn btn-primary">Yes</a>
+                                <form role="form" method="post" action="pages/transaction/function_transaction.php?act=save_session&id_transaction=<?= $_SESSION['id_transaction']; ?>">
+                                <div class="form-group">
+                                    <h6 class="modal-title"><b>Perhatian</b> Masukan biaya service jika pada transaksi ini terdapat jasa service, jika tidak ada bisa dikosongkan.</h6>
+                                    <br>
+                                    <label>Isi biaya service disini.</label>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">
+                                                <a>Rp</a>   
+                                            </span>
+                                        </div>
+                                        <input type="text" name="service" class="form-control" maxlength="10" oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')" />
+                                    </div>
+                                </div>
+                                    <button type="submit" class="btn btn-primary">Save</button>
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -159,7 +170,6 @@
                     </form>
                 </div>
             </div>
-            <!-- /.modal-content -->
         </div>
     </div>
 </section>

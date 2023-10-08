@@ -32,8 +32,8 @@
                         <td><?php echo $no = $no + 1; ?></td>
                         <td><?php echo $row['category']; ?></td>
                         <td>
-                            <a href="#" class="btn btn-success" role="button" title="Ubah Data" data-toggle="modal" data-target="#updatecategory<?php echo $no; ?>"><i class="fas fa-edit"></i></a>
-                            <a href="#" class="btn btn-danger" role="button" title="Hapus Data" data-toggle="modal" data-target="#deletecategory<?php echo $no; ?>"><i class="fas fa-trash"></i></a>
+                            <a href="#" class="btn btn-success" role="button" title="Ubah Data" data-toggle="modal" data-target="#updatecategory<?php echo $no; ?>">Update</a>
+                            <a href="#" class="btn btn-danger" role="button" title="Hapus Data" data-toggle="modal" data-target="#deletecategory<?php echo $no; ?>">Hapus</a>
 
                             <!-- modal delete -->
                             <div class="modal fade" id="deletecategory<?php echo $no; ?>" role="dialog">

@@ -126,7 +126,7 @@
                                         <a>Rp</a>   
                                     </span>
                                 </div>
-                                <input type="text" name="price" class="form-control" maxlength="10" oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')" />  
+                                <input type="text" name="price" class="form-control" maxlength="10" oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')" />
                             </div>
                         </div>
                         <button type="submit" class="btn btn-primary">Save</button>
