@@ -45,10 +45,10 @@ if ($_GET['act'] == 'add') {
 } else if ($_GET['act' ] == 'save_session') {
     $id_transaction = $_GET['id_transaction'];
     $id_user = $_SESSION['user_id'];
-    $service = str_replace(",", "", $_POST["service"]);
     $currentDateTime = date('Y-m-d H:i:s');
+    $service = str_replace(",", "", $_POST["service"]);
     
-    $query = "INSERT INTO `transaction`(`id`, `id_user`, `date`, `service`) VALUES ('$id_transaction','$id_user','$currentDateTime', '$service')";
+    $query = "INSERT INTO `transaction`(`id`, `id_user`, `date`, `service`, `status`) VALUES ('$id_transaction','$id_user','$currentDateTime', $service, '')";
     $result = mysqli_query($connection, $query);
 
     if ($result) {
